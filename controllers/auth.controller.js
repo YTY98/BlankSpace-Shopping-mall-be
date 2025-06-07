@@ -145,21 +145,6 @@ authController.naverLoginCallback = (req, res) => {
 };
 
 
-// authController.naverLoginCallback = (req, res) => {
-//   passport.authenticate('naver', { session: false }, (err, user, info) => {
-//     if (err) {
-//       return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
-//     }
-
-//     if (!user) {
-//       return res.status(400).json({ message: info.message || '로그인에 실패했습니다.' });
-//     }
-
-//     // 프론트엔드로 리다이렉트하면서 토큰 전달
-//     return res.redirect(`${process.env.FRONTEND_URL}?token=${user.token}`);
-//   })(req, res);
-// };
-
 
 // 이메일 전송을 위한 transporter 설정
 const transporter = nodemailer.createTransport({
