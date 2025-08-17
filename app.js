@@ -50,6 +50,21 @@ app.use((req, res, next) => {
 
 app.use(passport.initialize()); // passport 미들웨어 초기화
 app.use('/api/llm', llmApiRouter); // AI 프록시 라우터 등록
+
+// AI 서버 상태 체크 라우트 (프록시 밖에서 직접 처리)
+app.get('/api/ai-health', (req, res) => {
+  const axios = require('axios');
+  const aiApiUrl = 'http://127.0.0.1:62000';
+  
+  axios.get(`${aiApiUrl}/health`, { timeout: 3000 })
+    .then(() => {
+      res.json({ status: 'healthy', message: 'AI 서버가 정상 작동 중입니다.' });
+    })
+    .catch(() => {
+      res.status(503).json({ status: 'unhealthy', message: 'AI 서버에 연결할 수 없습니다.' });
+    });
+});
+
 app.use("/api", indexRouter);
 app.use("/auth", authRouter);
 app.use('/notices', noticesRouter);
